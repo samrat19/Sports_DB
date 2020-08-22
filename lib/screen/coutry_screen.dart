@@ -5,8 +5,7 @@ import 'package:flutter/material.dart';
 class CountryScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-
-    List<String> countryNameList= [
+    List<String> countryNameList = [
       'India',
       'United States',
       'Australia',
@@ -55,7 +54,6 @@ class CountryScreen extends StatelessWidget {
 }
 
 class CountryModel extends StatelessWidget {
-
   final String countryName;
 
   const CountryModel({Key key, @required this.countryName}) : super(key: key);

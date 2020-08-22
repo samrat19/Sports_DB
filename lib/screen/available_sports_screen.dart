@@ -187,9 +187,12 @@ class SportsDetailsModel extends StatelessWidget {
                 child: Align(
                   alignment: Alignment.centerRight,
                   child: Container(
-                    height: height*0.06,
-                    width: width*0.3,
-                    child: Image.asset('images/badge.png',fit: BoxFit.cover,),
+                    height: height * 0.06,
+                    width: width * 0.3,
+                    child: Image.asset(
+                      'images/badge.png',
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
               ),
