@@ -1,6 +1,13 @@
 import 'package:flutter/material.dart';
 
 class AvailableSportsScreen extends StatefulWidget {
+  final String countryName;
+
+  const AvailableSportsScreen({
+    Key key,
+    @required this.countryName,
+  }) : super(key: key);
+
   @override
   _AvailableSportsScreenState createState() => _AvailableSportsScreenState();
 }
@@ -41,7 +48,7 @@ class _AvailableSportsScreenState extends State<AvailableSportsScreen> {
                       width: 10.0,
                     ),
                     Text(
-                      'Country',
+                      widget.countryName,
                       style: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.w400,
@@ -58,7 +65,7 @@ class _AvailableSportsScreenState extends State<AvailableSportsScreen> {
             child: ClipRRect(
               borderRadius: BorderRadius.circular(6.0),
               child: GestureDetector(
-                onTap: (){
+                onTap: () {
                   setState(() {
                     isTapped = true;
                   });
@@ -69,42 +76,44 @@ class _AvailableSportsScreenState extends State<AvailableSportsScreen> {
                   color: Colors.grey[200],
                   child: Align(
                     alignment: Alignment.centerLeft,
-                    child:isTapped?Padding(
-                      padding: const EdgeInsets.only(
-                        left: 8.0,
-                        bottom: 8.0,
-                      ),
-                      child: Row(
-                        children: [
-                          Expanded(
-                            flex: 2,
-                            child: TextField(
-                              decoration: InputDecoration(
-                                hintText: 'Search leagues...',
-                                hintStyle: TextStyle(
-                                  color: Colors.black26,
-                                  fontSize: 13.0,
-                                ),
-                                border: InputBorder.none,
-                              ),
-                            ),
-                          ),
-                          Padding(
+                    child: isTapped
+                        ? Padding(
                             padding: const EdgeInsets.only(
-                              top: 7.0,
-                              right: 5.0,
+                              left: 8.0,
+                              bottom: 8.0,
                             ),
-                            child: Icon(
-                              Icons.search,
-                              color: Colors.grey[900],
-                              size: width * 0.07,
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  flex: 2,
+                                  child: TextField(
+                                    decoration: InputDecoration(
+                                      hintText: 'Search leagues...',
+                                      hintStyle: TextStyle(
+                                        color: Colors.black26,
+                                        fontSize: 13.0,
+                                      ),
+                                      border: InputBorder.none,
+                                    ),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                    top: 7.0,
+                                    right: 5.0,
+                                  ),
+                                  child: Icon(
+                                    Icons.search,
+                                    color: Colors.grey[900],
+                                    size: width * 0.07,
+                                  ),
+                                ),
+                              ],
                             ),
-                          ),
-                        ],
-                      ),
-                    ):Padding(
+                          )
+                        : Padding(
                             padding: const EdgeInsets.only(left: 8.0),
-                            child:Text(
+                            child: Text(
                               'Search leagues...',
                               textAlign: TextAlign.start,
                               style: TextStyle(
@@ -178,9 +187,9 @@ class SportsDetailsModel extends StatelessWidget {
                 child: Align(
                   alignment: Alignment.centerRight,
                   child: Container(
-                    height: 25.0,
-                    width: 110.0,
-                    color: Colors.amber,
+                    height: height*0.06,
+                    width: width*0.3,
+                    child: Image.asset('images/badge.png',fit: BoxFit.cover,),
                   ),
                 ),
               ),

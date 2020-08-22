@@ -55,7 +55,9 @@ class CountryModel extends StatelessWidget {
         onTap: () {
           Navigator.of(context).push(
             CupertinoPageRoute(
-              builder: (_) => AvailableSportsScreen(),
+              builder: (_) => AvailableSportsScreen(
+                countryName: 'Test Country',
+              ),
             ),
           );
         },
