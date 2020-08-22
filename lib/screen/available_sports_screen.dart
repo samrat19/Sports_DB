@@ -1,12 +1,18 @@
+import 'dart:developer';
+
 import 'package:Sports_DB/logic/bloc/sports_database_bloc.dart';
+import 'package:Sports_DB/logic/repositories/sports_response.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class AvailableSportsScreen extends StatefulWidget {
   final String countryName;
+  final List sportList;
 
   const AvailableSportsScreen({
     Key key,
     @required this.countryName,
+    @required this.sportList,
   }) : super(key: key);
 
   @override
@@ -152,6 +158,9 @@ class _AvailableSportsScreenState extends State<AvailableSportsScreen> {
                                   .twitterProfileLink,
                               facebookURL: snapshot.data
                                   .countryLeagueList[index].facebookProfileLink,
+                              sportsName: snapshot.data
+                                  .countryLeagueList[index].sportsName,
+                              sportsList: widget.sportList,
                             ),
                             itemCount: snapshot.data.countryLeagueList == null
                                 ? 0
@@ -167,11 +176,13 @@ class _AvailableSportsScreenState extends State<AvailableSportsScreen> {
   }
 }
 
-class SportsDetailsModel extends StatelessWidget {
+class SportsDetailsModel extends StatefulWidget {
   final String leagueName;
   final String leagueLogo;
   final String facebookURL;
   final String twitterURL;
+  final String sportsName;
+  final List sportsList;
 
   const SportsDetailsModel({
     Key key,
@@ -179,12 +190,39 @@ class SportsDetailsModel extends StatelessWidget {
     @required this.leagueLogo,
     @required this.facebookURL,
     @required this.twitterURL,
+    @required this.sportsName,
+    @required this.sportsList,
   }) : super(key: key);
+
+  @override
+  _SportsDetailsModelState createState() => _SportsDetailsModelState();
+}
+
+class _SportsDetailsModelState extends State<SportsDetailsModel> {
+
+  String backGroundImage;
+
+  @override
+  void initState() {
+    super.initState();
+    this.getBackgroundImage(widget.sportsName);
+  }
+
+  getBackgroundImage(String sportsName){
+    for(int i = 0 ; i< widget.sportsList.length; i++){
+      if(sportsName == widget.sportsList[i].sportsName){
+        setState(() {
+          backGroundImage = widget.sportsList[i].sportsThumbnailImage;
+        });
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
+
     return Padding(
       padding: const EdgeInsets.symmetric(
         vertical: 5.0,
@@ -196,7 +234,7 @@ class SportsDetailsModel extends StatelessWidget {
           borderRadius: BorderRadius.circular(7.0),
           image: DecorationImage(
             fit: BoxFit.cover,
-            image: AssetImage('images/soccer.jpg'),
+            image: backGroundImage == null ? AssetImage('images/soccer.jpg'):NetworkImage(backGroundImage),
           ),
         ),
         child: Padding(
@@ -210,7 +248,7 @@ class SportsDetailsModel extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                leagueName,
+                widget.leagueName,
                 style: TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.w600,
@@ -227,8 +265,8 @@ class SportsDetailsModel extends StatelessWidget {
                   child: Container(
                     height: height * 0.06,
                     width: width * 0.3,
-                    child: leagueLogo != null
-                        ? Image.network(leagueLogo, fit: BoxFit.cover)
+                    child: widget.leagueLogo != null
+                        ? Image.network(widget.leagueLogo, fit: BoxFit.cover)
                         : SizedBox(
                             width: 1,
                           ),
@@ -237,7 +275,7 @@ class SportsDetailsModel extends StatelessWidget {
               ),
               Row(
                 children: [
-                  twitterURL != null
+                  widget.twitterURL != null
                       ? ColorFiltered(
                           colorFilter: ColorFilter.mode(
                             Colors.white,
@@ -255,7 +293,7 @@ class SportsDetailsModel extends StatelessWidget {
                   SizedBox(
                     width: 10.0,
                   ),
-                  facebookURL != null
+                  widget.facebookURL != null
                       ? ColorFiltered(
                           colorFilter: ColorFilter.mode(
                             Colors.white,
