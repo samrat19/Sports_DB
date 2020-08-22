@@ -1,9 +1,5 @@
-import 'dart:developer';
-
 import 'package:Sports_DB/logic/bloc/sports_database_bloc.dart';
-import 'package:Sports_DB/logic/repositories/sports_response.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class AvailableSportsScreen extends StatefulWidget {
   final String countryName;

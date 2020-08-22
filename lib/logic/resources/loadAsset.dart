@@ -9,7 +9,6 @@ class LoadAsset{
   Future<SportsResponse> loadSports(String url) async {
     var response = await http.get(Uri.encodeFull(StoreURL().baseURL+url),
         headers: {"Accept": "application/json"});
-    log(StoreURL().baseURL+url);
     return SportsResponse.fromJSON(
       json.decode(response.body),
     );
