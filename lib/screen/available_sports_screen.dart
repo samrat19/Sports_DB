@@ -1,6 +1,13 @@
 import 'package:flutter/material.dart';
 
-class AvailableSportsScreen extends StatelessWidget {
+class AvailableSportsScreen extends StatefulWidget {
+  @override
+  _AvailableSportsScreenState createState() => _AvailableSportsScreenState();
+}
+
+class _AvailableSportsScreenState extends State<AvailableSportsScreen> {
+  bool isTapped = true;
+
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
@@ -48,9 +55,67 @@ class AvailableSportsScreen extends StatelessWidget {
           ),
           Padding(
             padding: const EdgeInsets.all(10.0),
-            child: Container(
-              height: height * 0.07,
-              color: Colors.amber,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(6.0),
+              child: GestureDetector(
+                onTap: (){
+                  setState(() {
+                    isTapped = true;
+                  });
+                },
+                child: Container(
+                  width: MediaQuery.of(context).size.width,
+                  height: height * 0.07,
+                  color: Colors.grey[200],
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child:isTapped?Padding(
+                      padding: const EdgeInsets.only(
+                        left: 8.0,
+                        bottom: 8.0,
+                      ),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            flex: 2,
+                            child: TextField(
+                              decoration: InputDecoration(
+                                hintText: 'Search leagues...',
+                                hintStyle: TextStyle(
+                                  color: Colors.black26,
+                                  fontSize: 13.0,
+                                ),
+                                border: InputBorder.none,
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(
+                              top: 7.0,
+                              right: 5.0,
+                            ),
+                            child: Icon(
+                              Icons.search,
+                              color: Colors.grey[900],
+                              size: width * 0.07,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ):Padding(
+                            padding: const EdgeInsets.only(left: 8.0),
+                            child:Text(
+                              'Search leagues...',
+                              textAlign: TextAlign.start,
+                              style: TextStyle(
+                                color: Colors.black26,
+                                fontSize: 13.0,
+                              ),
+                            ),
+                          ),
+                  ),
+                ),
+              ),
             ),
           ),
           Expanded(
@@ -74,10 +139,14 @@ class SportsDetailsModel extends StatelessWidget {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     return Padding(
-      padding: const EdgeInsets.all(10.0),
+      padding: const EdgeInsets.symmetric(
+        vertical: 5.0,
+        horizontal: 10.0,
+      ),
       child: Container(
         height: height * 0.25,
         decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(7.0),
           image: DecorationImage(
             fit: BoxFit.cover,
             image: AssetImage('images/soccer.jpg'),

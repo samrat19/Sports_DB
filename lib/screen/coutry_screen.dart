@@ -1,3 +1,4 @@
+import 'package:Sports_DB/screen/available_sports_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -14,11 +15,14 @@ class CountryScreen extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           SizedBox(
-            height: height*0.15,
+            height: height * 0.15,
           ),
           Text(
             'The Sports DB',
-            style: TextStyle(color: Colors.white, fontSize: width * 0.1, fontWeight: FontWeight.w500),
+            style: TextStyle(
+                color: Colors.white,
+                fontSize: width * 0.1,
+                fontWeight: FontWeight.w500),
           ),
           Expanded(
             child: Container(
@@ -26,7 +30,7 @@ class CountryScreen extends StatelessWidget {
                 padding: const EdgeInsets.all(20.0),
                 child: ListView.builder(
                   physics: BouncingScrollPhysics(),
-                  itemBuilder: (_,int index) => CountryModel(),
+                  itemBuilder: (_, int index) => CountryModel(),
                   itemCount: 10,
                 ),
               ),
@@ -48,7 +52,13 @@ class CountryModel extends StatelessWidget {
         bottom: 10.0,
       ),
       child: GestureDetector(
-        onTap: null,
+        onTap: () {
+          Navigator.of(context).push(
+            CupertinoPageRoute(
+              builder: (_) => AvailableSportsScreen(),
+            ),
+          );
+        },
         child: ClipRRect(
           borderRadius: BorderRadius.circular(7.0),
           clipBehavior: Clip.hardEdge,
@@ -67,7 +77,10 @@ class CountryModel extends StatelessWidget {
                       fontSize: width * 0.07,
                     ),
                   ),
-                  Image.asset('images/arrow_right.png',width: width*0.1,),
+                  Image.asset(
+                    'images/arrow_right.png',
+                    width: width * 0.1,
+                  ),
                 ],
               ),
             ),
@@ -77,4 +90,3 @@ class CountryModel extends StatelessWidget {
     );
   }
 }
-
