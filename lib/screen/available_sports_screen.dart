@@ -15,12 +15,19 @@ class AvailableSportsScreen extends StatefulWidget {
 
 class _AvailableSportsScreenState extends State<AvailableSportsScreen> {
   bool isTapped = true;
+  String search = '';
 
   @override
   void initState() {
     super.initState();
     sportsDatabaseBloc..getSports();
     sportsDatabaseBloc..getCountryLeague(widget.countryName);
+  }
+
+  getSearch(String searchString){
+    sportsDatabaseBloc..drainStream();
+    sportsDatabaseBloc..getSports();
+    sportsDatabaseBloc..getSearchedLeague(searchString,widget.countryName);
   }
 
   @override
@@ -96,6 +103,12 @@ class _AvailableSportsScreenState extends State<AvailableSportsScreen> {
                                 Expanded(
                                   flex: 2,
                                   child: TextField(
+                                    onChanged: (val){
+                                      setState(() {
+                                        print(val);
+                                        search = val;
+                                      });
+                                    },
                                     decoration: InputDecoration(
                                       hintText: 'Search leagues...',
                                       hintStyle: TextStyle(
@@ -111,10 +124,16 @@ class _AvailableSportsScreenState extends State<AvailableSportsScreen> {
                                     top: 7.0,
                                     right: 5.0,
                                   ),
-                                  child: Icon(
-                                    Icons.search,
-                                    color: Colors.grey[900],
-                                    size: width * 0.07,
+                                  child: GestureDetector(
+                                    onTap: (){
+                                      print(search);
+                                      getSearch(search);
+                                    },
+                                    child: Icon(
+                                      Icons.search,
+                                      color: Colors.grey[900],
+                                      size: width * 0.07,
+                                    ),
                                   ),
                                 ),
                               ],

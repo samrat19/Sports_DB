@@ -1,7 +1,4 @@
-import 'dart:developer';
-
 import 'package:Sports_DB/logic/model/country_league_model.dart';
-import 'package:Sports_DB/logic/model/sports_model.dart';
 import 'package:Sports_DB/logic/repositories/country_league_response.dart';
 import 'package:Sports_DB/logic/repositories/sports_response.dart';
 import 'package:Sports_DB/logic/resources/loadAsset.dart';
@@ -25,6 +22,12 @@ class SportsDataBaseBloc {
   getCountryLeague(String countryName) async {
     CountryLeagueResponse countryLeagueResponse = await _loadAsset
         .loadCountryLeague(StoreURL().countryLeagueURL + countryName);
+    _countrySubject.sink.add(countryLeagueResponse);
+  }
+
+  getSearchedLeague(String searchString, String countryName) async {
+    CountryLeagueResponse countryLeagueResponse = await _loadAsset
+        .loadSearchResult(StoreURL().searchURL + '?s=' + searchString + '&c=' +countryName);
     _countrySubject.sink.add(countryLeagueResponse);
   }
 
