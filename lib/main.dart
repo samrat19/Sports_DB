@@ -1,7 +1,6 @@
-import 'package:Sports_DB/screen/available_sports_screen.dart';
 import 'package:flutter/material.dart';
 
-import 'screen/coutry_screen.dart';
+import 'screen/country_screen.dart';
 
 main() => runApp(MyApp());
 
