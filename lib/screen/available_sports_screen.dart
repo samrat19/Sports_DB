@@ -3,12 +3,10 @@ import 'package:flutter/material.dart';
 
 class AvailableSportsScreen extends StatefulWidget {
   final String countryName;
-  final List sportList;
 
   const AvailableSportsScreen({
     Key key,
     @required this.countryName,
-    @required this.sportList,
   }) : super(key: key);
 
   @override
@@ -21,7 +19,7 @@ class _AvailableSportsScreenState extends State<AvailableSportsScreen> {
   @override
   void initState() {
     super.initState();
-
+    sportsDatabaseBloc..getSports();
     sportsDatabaseBloc..getCountryLeague(widget.countryName);
   }
 
@@ -46,6 +44,7 @@ class _AvailableSportsScreenState extends State<AvailableSportsScreen> {
                   children: [
                     GestureDetector(
                       onTap: () {
+                        sportsDatabaseBloc..drainStream();
                         Navigator.of(context).pop();
                       },
                       child: Icon(
@@ -137,34 +136,41 @@ class _AvailableSportsScreenState extends State<AvailableSportsScreen> {
               ),
             ),
           ),
-          StreamBuilder(
-              stream: sportsDatabaseBloc.countryLeagueSubject.stream,
+          StreamBuilder<List<CountrySports>>(
+              stream: sportsDatabaseBloc.getCountryLeagueSports,
               builder: (context, snapshot) {
-                return snapshot.hasData
-                    ? Expanded(
-                        child: Container(
-                          child: ListView.builder(
-                            physics: BouncingScrollPhysics(),
-                            itemBuilder: (_, int index) => SportsDetailsModel(
-                              leagueName: snapshot
-                                  .data.countryLeagueList[index].leagueName,
-                              leagueLogo: snapshot
-                                  .data.countryLeagueList[index].leagueLogo,
-                              twitterURL: snapshot.data.countryLeagueList[index]
-                                  .twitterProfileLink,
-                              facebookURL: snapshot.data
-                                  .countryLeagueList[index].facebookProfileLink,
-                              sportsName: snapshot.data
-                                  .countryLeagueList[index].sportsName,
-                              sportsList: widget.sportList,
-                            ),
-                            itemCount: snapshot.data.countryLeagueList == null
-                                ? 0
-                                : snapshot.data.countryLeagueList.length,
-                          ),
+                if (snapshot.hasData) {
+                  List<CountrySports> countrySports = snapshot.data;
+                  return Expanded(
+                    child: Container(
+                      child: ListView.builder(
+                        physics: BouncingScrollPhysics(),
+                        itemBuilder: (_, int index) => SportsDetailsModel(
+                          leagueName: countrySports[index]
+                              .countryLeagueModel
+                              .leagueName,
+                          leagueLogo: countrySports[index]
+                              .countryLeagueModel
+                              .leagueLogo,
+                          twitterURL: countrySports[index]
+                              .countryLeagueModel
+                              .twitterProfileLink,
+                          facebookURL: countrySports[index]
+                              .countryLeagueModel
+                              .facebookProfileLink,
+                          sportsName: countrySports[index]
+                              .countryLeagueModel
+                              .sportsName,
+                          sportsThumbnailImage: countrySports[index].thumbnail,
                         ),
-                      )
-                    : Text('Fetching');
+                        itemCount:
+                            countrySports == null ? 0 : sportsDatabaseBloc.totalLeague(),
+                      ),
+                    ),
+                  );
+                } else {
+                  return Text('Fetching');
+                }
               }),
         ],
       ),
@@ -172,13 +178,13 @@ class _AvailableSportsScreenState extends State<AvailableSportsScreen> {
   }
 }
 
-class SportsDetailsModel extends StatefulWidget {
+class SportsDetailsModel extends StatelessWidget {
   final String leagueName;
   final String leagueLogo;
   final String facebookURL;
   final String twitterURL;
   final String sportsName;
-  final List sportsList;
+  final String sportsThumbnailImage;
 
   const SportsDetailsModel({
     Key key,
@@ -187,32 +193,8 @@ class SportsDetailsModel extends StatefulWidget {
     @required this.facebookURL,
     @required this.twitterURL,
     @required this.sportsName,
-    @required this.sportsList,
+    @required this.sportsThumbnailImage,
   }) : super(key: key);
-
-  @override
-  _SportsDetailsModelState createState() => _SportsDetailsModelState();
-}
-
-class _SportsDetailsModelState extends State<SportsDetailsModel> {
-
-  String backGroundImage;
-
-  @override
-  void initState() {
-    super.initState();
-    this.getBackgroundImage(widget.sportsName);
-  }
-
-  getBackgroundImage(String sportsName){
-    for(int i = 0 ; i< widget.sportsList.length; i++){
-      if(sportsName == widget.sportsList[i].sportsName){
-        setState(() {
-          backGroundImage = widget.sportsList[i].sportsThumbnailImage;
-        });
-      }
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -230,7 +212,9 @@ class _SportsDetailsModelState extends State<SportsDetailsModel> {
           borderRadius: BorderRadius.circular(7.0),
           image: DecorationImage(
             fit: BoxFit.cover,
-            image: backGroundImage == null ? AssetImage('images/soccer.jpg'):NetworkImage(backGroundImage),
+            image: sportsThumbnailImage == null
+                ? AssetImage('images/soccer.jpg')
+                : NetworkImage(sportsThumbnailImage),
           ),
         ),
         child: Padding(
@@ -244,7 +228,7 @@ class _SportsDetailsModelState extends State<SportsDetailsModel> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                widget.leagueName,
+                leagueName,
                 style: TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.w600,
@@ -261,8 +245,8 @@ class _SportsDetailsModelState extends State<SportsDetailsModel> {
                   child: Container(
                     height: height * 0.06,
                     width: width * 0.3,
-                    child: widget.leagueLogo != null
-                        ? Image.network(widget.leagueLogo, fit: BoxFit.cover)
+                    child: leagueLogo != null
+                        ? Image.network(leagueLogo, fit: BoxFit.cover)
                         : SizedBox(
                             width: 1,
                           ),
@@ -271,7 +255,7 @@ class _SportsDetailsModelState extends State<SportsDetailsModel> {
               ),
               Row(
                 children: [
-                  widget.twitterURL != null
+                  twitterURL != null
                       ? ColorFiltered(
                           colorFilter: ColorFilter.mode(
                             Colors.white,
@@ -289,7 +273,7 @@ class _SportsDetailsModelState extends State<SportsDetailsModel> {
                   SizedBox(
                     width: 10.0,
                   ),
-                  widget.facebookURL != null
+                  facebookURL != null
                       ? ColorFiltered(
                           colorFilter: ColorFilter.mode(
                             Colors.white,

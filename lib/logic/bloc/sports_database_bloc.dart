@@ -29,33 +29,45 @@ class SportsDataBaseBloc {
   }
 
   List<CountrySports> countrySports = [];
+  int countryLeagueLength;
 
   Stream<List<CountrySports>> get getCountryLeagueSports =>
       Rx.combineLatest2(countryLeagueSubject.stream, sportSubject.stream,
           (CountryLeagueResponse countryLeagueResponse,
               SportsResponse sportsResponse) {
-        for (int i = 0; i < countryLeagueResponse.countryLeagueList.length; i++) {
+        for (int i = 0;
+            i < countryLeagueResponse.countryLeagueList.length;
+            i++) {
           for (int j = 0; j < sportsResponse.sportsList.length; j++) {
             if (countryLeagueResponse.countryLeagueList[i].sportsName ==
                 sportsResponse.sportsList[j].sportsName) {
-//              print(countryLeagueResponse.countryLeagueList[i].sportsName);
-//              print(sportsResponse.sportsList[j].sportsThumbnailImage);
               countrySports.add(
                 CountrySports(
                   countryLeagueResponse.countryLeagueList[i],
-                  sportsResponse.sportsList[i].sportsThumbnailImage,
+                  sportsResponse.sportsList[j].sportsThumbnailImage,
                 ),
               );
             }
           }
         }
-       // print(countrySports[1].countryLeagueModel.sportsName);
+        countryLeagueLength = countryLeagueResponse.countryLeagueList.length;
         return countrySports;
       });
+
+  int totalLeague() {
+    return countryLeagueLength;
+  }
 
   dispose() {
     _countrySubject.close();
     _sportsSubject.close();
+  }
+
+  void drainStream() {
+    print('I am here');
+    countrySports.clear();
+    _countrySubject.value = null;
+    _sportsSubject.value = null;
   }
 
   BehaviorSubject<SportsResponse> get sportSubject => _sportsSubject;

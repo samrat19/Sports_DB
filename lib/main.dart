@@ -14,10 +14,30 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+
+  @override
+  void initState() {
+    super.initState();
+    sportsDatabaseBloc..getSports();
+    sportsDatabaseBloc..getCountryLeague('India');
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        home: CountryScreen();
+//        home: StreamBuilder<List<CountrySports>>(
+//          stream: sportsDatabaseBloc.getCountryLeagueSports,
+//          builder: (context, snapshot) {
+//            if(snapshot.hasData){
+//              List<CountrySports> countrySports = snapshot.data;
+//              print(countrySports[2].countryLeagueModel.leagueName);
+//            }else{
+//              print(0);
+//            }
+//            return Container();
+//          }
+//        ),
+    home: CountryScreen(),
       );
   }
 }
