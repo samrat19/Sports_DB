@@ -24,7 +24,7 @@ class CountryScreen extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           SizedBox(
-            height: height * 0.15,
+            height: height * 0.12,
           ),
           Text(
             'The Sports DB',
