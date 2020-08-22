@@ -1,3 +1,4 @@
+import 'package:Sports_DB/logic/bloc/sports_database_bloc.dart';
 import 'package:flutter/material.dart';
 
 class AvailableSportsScreen extends StatefulWidget {
@@ -16,133 +17,152 @@ class _AvailableSportsScreenState extends State<AvailableSportsScreen> {
   bool isTapped = true;
 
   @override
+  void initState() {
+    super.initState();
+
+    sportsDatabaseBloc..getCountryLeague();
+  }
+
+  @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     return Scaffold(
-      body: Column(
-        children: [
-          Container(
-            height: height * 0.14,
-            color: Colors.red,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(
-                vertical: 6.0,
-                horizontal: 10.0,
-              ),
-              child: Align(
-                alignment: Alignment.bottomLeft,
-                child: Row(
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.of(context).pop();
-                      },
-                      child: Icon(
-                        Icons.arrow_back,
-                        color: Colors.white,
-                        size: width * 0.07,
-                      ),
-                    ),
-                    SizedBox(
-                      width: 10.0,
-                    ),
-                    Text(
-                      widget.countryName,
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.w400,
-                        fontSize: width * 0.06,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(6.0),
-              child: GestureDetector(
-                onTap: () {
-                  setState(() {
-                    isTapped = true;
-                  });
-                },
-                child: Container(
-                  width: MediaQuery.of(context).size.width,
-                  height: height * 0.07,
-                  color: Colors.grey[200],
+      body: StreamBuilder(
+        stream: sportsDatabaseBloc.countryLeagueSubject.stream,
+        builder: (context, snapshot) {
+          return snapshot.hasData?Column(
+            children: [
+              Container(
+                height: height * 0.14,
+                color: Colors.red,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 6.0,
+                    horizontal: 10.0,
+                  ),
                   child: Align(
-                    alignment: Alignment.centerLeft,
-                    child: isTapped
-                        ? Padding(
-                            padding: const EdgeInsets.only(
-                              left: 8.0,
-                              bottom: 8.0,
-                            ),
-                            child: Row(
-                              children: [
-                                Expanded(
-                                  flex: 2,
-                                  child: TextField(
-                                    decoration: InputDecoration(
-                                      hintText: 'Search leagues...',
-                                      hintStyle: TextStyle(
-                                        color: Colors.black26,
-                                        fontSize: 13.0,
-                                      ),
-                                      border: InputBorder.none,
-                                    ),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                    top: 7.0,
-                                    right: 5.0,
-                                  ),
-                                  child: Icon(
-                                    Icons.search,
-                                    color: Colors.grey[900],
-                                    size: width * 0.07,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          )
-                        : Padding(
-                            padding: const EdgeInsets.only(left: 8.0),
-                            child: Text(
-                              'Search leagues...',
-                              textAlign: TextAlign.start,
-                              style: TextStyle(
-                                color: Colors.black26,
-                                fontSize: 13.0,
-                              ),
-                            ),
+                    alignment: Alignment.bottomLeft,
+                    child: Row(
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.of(context).pop();
+                          },
+                          child: Icon(
+                            Icons.arrow_back,
+                            color: Colors.white,
+                            size: width * 0.07,
                           ),
+                        ),
+                        SizedBox(
+                          width: 10.0,
+                        ),
+                        Text(
+                          widget.countryName,
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w400,
+                            fontSize: width * 0.06,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
-            ),
-          ),
-          Expanded(
-            child: Container(
-              child: ListView.builder(
-                physics: BouncingScrollPhysics(),
-                itemBuilder: (_, int index) => SportsDetailsModel(),
-                itemCount: 5,
+              Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(6.0),
+                  child: GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        isTapped = true;
+                      });
+                    },
+                    child: Container(
+                      width: MediaQuery.of(context).size.width,
+                      height: height * 0.07,
+                      color: Colors.grey[200],
+                      child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: isTapped
+                            ? Padding(
+                                padding: const EdgeInsets.only(
+                                  left: 8.0,
+                                  bottom: 8.0,
+                                ),
+                                child: Row(
+                                  children: [
+                                    Expanded(
+                                      flex: 2,
+                                      child: TextField(
+                                        decoration: InputDecoration(
+                                          hintText: 'Search leagues...',
+                                          hintStyle: TextStyle(
+                                            color: Colors.black26,
+                                            fontSize: 13.0,
+                                          ),
+                                          border: InputBorder.none,
+                                        ),
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                        top: 7.0,
+                                        right: 5.0,
+                                      ),
+                                      child: Icon(
+                                        Icons.search,
+                                        color: Colors.grey[900],
+                                        size: width * 0.07,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              )
+                            : Padding(
+                                padding: const EdgeInsets.only(left: 8.0),
+                                child: Text(
+                                  'Search leagues...',
+                                  textAlign: TextAlign.start,
+                                  style: TextStyle(
+                                    color: Colors.black26,
+                                    fontSize: 13.0,
+                                  ),
+                                ),
+                              ),
+                      ),
+                    ),
+                  ),
+                ),
               ),
-            ),
-          ),
-        ],
+              Expanded(
+                child: Container(
+                  child: ListView.builder(
+                    physics: BouncingScrollPhysics(),
+                    itemBuilder: (_, int index) => SportsDetailsModel(
+                      leagueName: snapshot.data.countryLeagueList[index].leagueName,
+                    ),
+                    itemCount: 5,
+                  ),
+                ),
+              ),
+            ],
+          ):Text('Waiting');
+        }
       ),
     );
   }
 }
 
 class SportsDetailsModel extends StatelessWidget {
+
+  final String leagueName;
+
+  const SportsDetailsModel({Key key, @required this.leagueName}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
@@ -172,7 +192,7 @@ class SportsDetailsModel extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'American Major League Soccer',
+                leagueName,
                 style: TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.w600,
