@@ -1,4 +1,5 @@
-import 'package:Sports_DB/logic/bloc/sports_database_bloc.dart';
+import 'package:Sports_DB/logic/businessLogic/sports_database_bloc.dart';
+import 'package:Sports_DB/logic/model/country_sports_model.dart';
 import 'package:flutter/material.dart';
 
 class AvailableSportsScreen extends StatefulWidget {
@@ -155,11 +156,11 @@ class _AvailableSportsScreenState extends State<AvailableSportsScreen> {
               ),
             ),
           ),
-          StreamBuilder<List<CountrySports>>(
+          StreamBuilder<List<CountrySportsModel>>(
               stream: sportsDatabaseBloc.getCountryLeagueSports,
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
-                  List<CountrySports> countrySports = snapshot.data;
+                  List<CountrySportsModel> countrySports = snapshot.data;
                   return snapshot.data.length == null? Text('Sorry') :Expanded(
                     child: Container(
                       child: ListView.builder(

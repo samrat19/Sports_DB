@@ -1,7 +1,7 @@
 import 'dart:convert';
-import 'package:Sports_DB/logic/repositories/country_league_response.dart';
-import 'package:Sports_DB/logic/repositories/sports_response.dart';
 import 'package:Sports_DB/logic/resources/store_url.dart';
+import 'package:Sports_DB/logic/responses/country_league_response.dart';
+import 'package:Sports_DB/logic/responses/sports_response.dart';
 import 'package:http/http.dart' as http;
 
 class LoadAsset{

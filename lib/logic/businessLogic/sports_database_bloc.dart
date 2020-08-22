@@ -1,8 +1,8 @@
-import 'package:Sports_DB/logic/model/country_league_model.dart';
-import 'package:Sports_DB/logic/repositories/country_league_response.dart';
-import 'package:Sports_DB/logic/repositories/sports_response.dart';
+import 'package:Sports_DB/logic/model/country_sports_model.dart';
 import 'package:Sports_DB/logic/resources/loadAsset.dart';
 import 'package:Sports_DB/logic/resources/store_url.dart';
+import 'package:Sports_DB/logic/responses/country_league_response.dart';
+import 'package:Sports_DB/logic/responses/sports_response.dart';
 import 'package:rxdart/rxdart.dart';
 
 class SportsDataBaseBloc {
@@ -32,10 +32,10 @@ class SportsDataBaseBloc {
     _countrySubject.sink.add(countryLeagueResponse);
   }
 
-  List<CountrySports> countrySports = [];
+  List<CountrySportsModel> countrySports = [];
   int countryLeagueLength;
 
-  Stream<List<CountrySports>> get getCountryLeagueSports =>
+  Stream<List<CountrySportsModel>> get getCountryLeagueSports =>
       Rx.combineLatest2(countryLeagueSubject.stream, sportSubject.stream,
           (CountryLeagueResponse countryLeagueResponse,
               SportsResponse sportsResponse) {
@@ -46,7 +46,7 @@ class SportsDataBaseBloc {
             if (countryLeagueResponse.countryLeagueList[i].sportsName ==
                 sportsResponse.sportsList[j].sportsName) {
               countrySports.add(
-                CountrySports(
+                CountrySportsModel(
                   countryLeagueResponse.countryLeagueList[i],
                   sportsResponse.sportsList[j].sportsThumbnailImage,
                 ),
@@ -81,10 +81,3 @@ class SportsDataBaseBloc {
 }
 
 final sportsDatabaseBloc = SportsDataBaseBloc();
-
-class CountrySports {
-  final CountryLeagueModel countryLeagueModel;
-  final String thumbnail;
-
-  CountrySports(this.countryLeagueModel, this.thumbnail);
-}
