@@ -16,8 +16,6 @@ class LoadAsset{
   Future<CountryLeagueResponse> loadCountryLeague(String url) async {
     var response = await http.get(Uri.encodeFull(StoreURL().baseURL+url),
         headers: {"Accept": "application/json"});
-    print(StoreURL().baseURL+url);
-    print(response.body);
     return CountryLeagueResponse.fromJSON(
       json.decode(response.body),
     );

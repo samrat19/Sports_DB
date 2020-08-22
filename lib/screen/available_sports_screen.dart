@@ -28,119 +28,118 @@ class _AvailableSportsScreenState extends State<AvailableSportsScreen> {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     return Scaffold(
-      body: StreamBuilder(
-          stream: sportsDatabaseBloc.countryLeagueSubject.stream,
-          builder: (context, snapshot) {
-            return snapshot.hasData
-                ? Column(
-                    children: [
-                      Container(
-                        height: height * 0.14,
-                        color: Colors.red,
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                            vertical: 6.0,
-                            horizontal: 10.0,
-                          ),
-                          child: Align(
-                            alignment: Alignment.bottomLeft,
+      body: Column(
+        children: [
+          Container(
+            height: height * 0.14,
+            color: Colors.red,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(
+                vertical: 6.0,
+                horizontal: 10.0,
+              ),
+              child: Align(
+                alignment: Alignment.bottomLeft,
+                child: Row(
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.of(context).pop();
+                      },
+                      child: Icon(
+                        Icons.arrow_back,
+                        color: Colors.white,
+                        size: width * 0.07,
+                      ),
+                    ),
+                    SizedBox(
+                      width: 10.0,
+                    ),
+                    Text(
+                      widget.countryName,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.w400,
+                        fontSize: width * 0.06,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(6.0),
+              child: GestureDetector(
+                onTap: () {
+                  setState(() {
+                    isTapped = true;
+                  });
+                },
+                child: Container(
+                  width: MediaQuery.of(context).size.width,
+                  height: height * 0.07,
+                  color: Colors.grey[200],
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: isTapped
+                        ? Padding(
+                            padding: const EdgeInsets.only(
+                              left: 8.0,
+                              bottom: 8.0,
+                            ),
                             child: Row(
                               children: [
-                                GestureDetector(
-                                  onTap: () {
-                                    Navigator.of(context).pop();
-                                  },
-                                  child: Icon(
-                                    Icons.arrow_back,
-                                    color: Colors.white,
-                                    size: width * 0.07,
+                                Expanded(
+                                  flex: 2,
+                                  child: TextField(
+                                    decoration: InputDecoration(
+                                      hintText: 'Search leagues...',
+                                      hintStyle: TextStyle(
+                                        color: Colors.black26,
+                                        fontSize: 13.0,
+                                      ),
+                                      border: InputBorder.none,
+                                    ),
                                   ),
                                 ),
-                                SizedBox(
-                                  width: 10.0,
-                                ),
-                                Text(
-                                  widget.countryName,
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.w400,
-                                    fontSize: width * 0.06,
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                    top: 7.0,
+                                    right: 5.0,
+                                  ),
+                                  child: Icon(
+                                    Icons.search,
+                                    color: Colors.grey[900],
+                                    size: width * 0.07,
                                   ),
                                 ),
                               ],
                             ),
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(10.0),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(6.0),
-                          child: GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                isTapped = true;
-                              });
-                            },
-                            child: Container(
-                              width: MediaQuery.of(context).size.width,
-                              height: height * 0.07,
-                              color: Colors.grey[200],
-                              child: Align(
-                                alignment: Alignment.centerLeft,
-                                child: isTapped
-                                    ? Padding(
-                                        padding: const EdgeInsets.only(
-                                          left: 8.0,
-                                          bottom: 8.0,
-                                        ),
-                                        child: Row(
-                                          children: [
-                                            Expanded(
-                                              flex: 2,
-                                              child: TextField(
-                                                decoration: InputDecoration(
-                                                  hintText: 'Search leagues...',
-                                                  hintStyle: TextStyle(
-                                                    color: Colors.black26,
-                                                    fontSize: 13.0,
-                                                  ),
-                                                  border: InputBorder.none,
-                                                ),
-                                              ),
-                                            ),
-                                            Padding(
-                                              padding: const EdgeInsets.only(
-                                                top: 7.0,
-                                                right: 5.0,
-                                              ),
-                                              child: Icon(
-                                                Icons.search,
-                                                color: Colors.grey[900],
-                                                size: width * 0.07,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      )
-                                    : Padding(
-                                        padding:
-                                            const EdgeInsets.only(left: 8.0),
-                                        child: Text(
-                                          'Search leagues...',
-                                          textAlign: TextAlign.start,
-                                          style: TextStyle(
-                                            color: Colors.black26,
-                                            fontSize: 13.0,
-                                          ),
-                                        ),
-                                      ),
+                          )
+                        : Padding(
+                            padding: const EdgeInsets.only(left: 8.0),
+                            child: Text(
+                              'Search leagues...',
+                              textAlign: TextAlign.start,
+                              style: TextStyle(
+                                color: Colors.black26,
+                                fontSize: 13.0,
                               ),
                             ),
                           ),
-                        ),
-                      ),
-                      Expanded(
+                  ),
+                ),
+              ),
+            ),
+          ),
+          StreamBuilder(
+              stream: sportsDatabaseBloc.countryLeagueSubject.stream,
+              builder: (context, snapshot) {
+                return snapshot.hasData
+                    ? Expanded(
                         child: Container(
                           child: ListView.builder(
                             physics: BouncingScrollPhysics(),
@@ -149,20 +148,21 @@ class _AvailableSportsScreenState extends State<AvailableSportsScreen> {
                                   .data.countryLeagueList[index].leagueName,
                               leagueLogo: snapshot
                                   .data.countryLeagueList[index].leagueLogo,
-                              twitterURL: snapshot
-                                  .data.countryLeagueList[index].twitterProfileLink,
-                              facebookURL: snapshot
-                                  .data.countryLeagueList[index].facebookProfileLink,
+                              twitterURL: snapshot.data.countryLeagueList[index]
+                                  .twitterProfileLink,
+                              facebookURL: snapshot.data
+                                  .countryLeagueList[index].facebookProfileLink,
                             ),
-                            itemCount: snapshot
-                                .data.countryLeagueList == null ? 0 : snapshot.data.countryLeagueList.length,
+                            itemCount: snapshot.data.countryLeagueList == null
+                                ? 0
+                                : snapshot.data.countryLeagueList.length,
                           ),
                         ),
-                      ),
-                    ],
-                  )
-                : Text('Waiting');
-          }),
+                      )
+                    : Text('Fetching');
+              }),
+        ],
+      ),
     );
   }
 }
@@ -227,41 +227,49 @@ class SportsDetailsModel extends StatelessWidget {
                   child: Container(
                     height: height * 0.06,
                     width: width * 0.3,
-                    child: leagueLogo != null? Image.network(leagueLogo,fit: BoxFit.cover):SizedBox(
-                      width: 1,
-                    ),
+                    child: leagueLogo != null
+                        ? Image.network(leagueLogo, fit: BoxFit.cover)
+                        : SizedBox(
+                            width: 1,
+                          ),
                   ),
                 ),
               ),
               Row(
                 children: [
-                  twitterURL!=null?ColorFiltered(
-                    colorFilter: ColorFilter.mode(
-                      Colors.white,
-                      BlendMode.saturation,
-                    ),
-                    child: Image.asset(
-                      'images/twitter.png',
-                      width: width * 0.08,
-                      colorBlendMode: BlendMode.lighten,
-                    ),
-                  ):SizedBox(width: 1,),
+                  twitterURL != null
+                      ? ColorFiltered(
+                          colorFilter: ColorFilter.mode(
+                            Colors.white,
+                            BlendMode.saturation,
+                          ),
+                          child: Image.asset(
+                            'images/twitter.png',
+                            width: width * 0.08,
+                            colorBlendMode: BlendMode.lighten,
+                          ),
+                        )
+                      : SizedBox(
+                          width: 1,
+                        ),
                   SizedBox(
                     width: 10.0,
                   ),
-                  facebookURL != null?ColorFiltered(
-                    colorFilter: ColorFilter.mode(
-                      Colors.white,
-                      BlendMode.saturation,
-                    ),
-                    child: Image.asset(
-                      'images/facebook.png',
-                      width: width * 0.08,
-                      colorBlendMode: BlendMode.lighten,
-                    ),
-                  ):SizedBox(
-                    width: 1,
-                  ),
+                  facebookURL != null
+                      ? ColorFiltered(
+                          colorFilter: ColorFilter.mode(
+                            Colors.white,
+                            BlendMode.saturation,
+                          ),
+                          child: Image.asset(
+                            'images/facebook.png',
+                            width: width * 0.08,
+                            colorBlendMode: BlendMode.lighten,
+                          ),
+                        )
+                      : SizedBox(
+                          width: 1,
+                        ),
                 ],
               ),
             ],

@@ -6,7 +6,7 @@ class SportsResponse{
   SportsResponse(this.sportsList);
 
   SportsResponse.fromJSON(Map<String, dynamic> responseJSON)
-      : sportsList = (responseJSON['articles'] as List)
+      : sportsList = (responseJSON['sports'] as List)
       .map((sports) => SportsModel.fromJSON(sports))
       .toList();
 }
