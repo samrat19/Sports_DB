@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
 import 'package:Sports_DB/logic/repositories/country_league_response.dart';
 import 'package:Sports_DB/logic/repositories/sports_response.dart';
 import 'package:Sports_DB/logic/resources/store_url.dart';
@@ -25,7 +24,6 @@ class LoadAsset{
   Future<CountryLeagueResponse> loadSearchResult(String url) async {
     var response = await http.get(Uri.encodeFull(StoreURL().baseURL+url),
         headers: {"Accept": "application/json"});
-    print(StoreURL().baseURL+url);
     return CountryLeagueResponse.fromJSON(
       json.decode(response.body),
     );

@@ -160,7 +160,7 @@ class _AvailableSportsScreenState extends State<AvailableSportsScreen> {
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   List<CountrySports> countrySports = snapshot.data;
-                  return Expanded(
+                  return snapshot.data.length == null? Text('Sorry') :Expanded(
                     child: Container(
                       child: ListView.builder(
                         physics: BouncingScrollPhysics(),
@@ -187,7 +187,8 @@ class _AvailableSportsScreenState extends State<AvailableSportsScreen> {
                       ),
                     ),
                   );
-                } else {
+                }
+                else {
                   return Text('Fetching');
                 }
               }),
