@@ -5,6 +5,16 @@ import 'package:flutter/material.dart';
 class CountryScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+
+    List<String> countryNameList= [
+      'India',
+      'United States',
+      'Australia',
+      'China',
+      'Argentina',
+      'Canada',
+    ];
+
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
 
@@ -30,8 +40,10 @@ class CountryScreen extends StatelessWidget {
                 padding: const EdgeInsets.all(20.0),
                 child: ListView.builder(
                   physics: BouncingScrollPhysics(),
-                  itemBuilder: (_, int index) => CountryModel(),
-                  itemCount: 10,
+                  itemBuilder: (_, int index) => CountryModel(
+                    countryName: countryNameList[index],
+                  ),
+                  itemCount: countryNameList.length,
                 ),
               ),
             ),
@@ -43,6 +55,11 @@ class CountryScreen extends StatelessWidget {
 }
 
 class CountryModel extends StatelessWidget {
+
+  final String countryName;
+
+  const CountryModel({Key key, @required this.countryName}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
@@ -56,7 +73,7 @@ class CountryModel extends StatelessWidget {
           Navigator.of(context).push(
             CupertinoPageRoute(
               builder: (_) => AvailableSportsScreen(
-                countryName: 'Test Country',
+                countryName: countryName,
               ),
             ),
           );
@@ -72,7 +89,7 @@ class CountryModel extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    'Country',
+                    countryName,
                     style: TextStyle(
                       color: Colors.black,
                       fontWeight: FontWeight.bold,
