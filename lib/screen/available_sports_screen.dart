@@ -20,7 +20,7 @@ class _AvailableSportsScreenState extends State<AvailableSportsScreen> {
   void initState() {
     super.initState();
 
-    sportsDatabaseBloc..getCountryLeague();
+    sportsDatabaseBloc..getCountryLeague(widget.countryName);
   }
 
   @override
@@ -154,7 +154,8 @@ class _AvailableSportsScreenState extends State<AvailableSportsScreen> {
                               facebookURL: snapshot
                                   .data.countryLeagueList[index].facebookProfileLink,
                             ),
-                            itemCount: 5,
+                            itemCount: snapshot
+                                .data.countryLeagueList == null ? 0 : snapshot.data.countryLeagueList.length,
                           ),
                         ),
                       ),
