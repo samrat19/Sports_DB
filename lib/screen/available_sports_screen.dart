@@ -101,10 +101,16 @@ class _AvailableSportsScreenState extends State<AvailableSportsScreen> {
                         bottom: 8.0,
                       ),
                       child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Expanded(
                             flex: 2,
                             child: TextFormField(
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: width/23,
+                              ),
                               onTap: () {
                                 setState(() {
                                   isTapped = true;
@@ -119,7 +125,7 @@ class _AvailableSportsScreenState extends State<AvailableSportsScreen> {
                                 hintText: 'Search leagues...',
                                 hintStyle: TextStyle(
                                   color: Colors.black26,
-                                  fontSize: 13.0,
+                                  fontSize: width/23,
                                 ),
                                 border: InputBorder.none,
                               ),
@@ -179,7 +185,9 @@ class _AvailableSportsScreenState extends State<AvailableSportsScreen> {
                     ),
                   );
                 } else {
-                  return Text(errorMessage);
+                  return Text(errorMessage,style: TextStyle(
+                    fontSize: width/23,
+                  ),);
                 }
               }),
         ],

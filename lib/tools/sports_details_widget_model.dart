@@ -29,7 +29,7 @@ class SportsDetailsWidgetModel extends StatelessWidget {
         horizontal: 10.0,
       ),
       child: Container(
-        height: height * 0.25,
+        height: height * 0.2637,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(7.0),
           image: DecorationImage(
@@ -52,7 +52,7 @@ class SportsDetailsWidgetModel extends StatelessWidget {
                 style: TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.w600,
-                  fontSize: width * 0.045,
+                  fontSize: width * 0.05,
                 ),
               ),
               Padding(
@@ -104,10 +104,7 @@ class SportsDetailsWidgetModel extends StatelessWidget {
                       width: width * 0.08,
                       colorBlendMode: BlendMode.lighten,
                     ),
-                  )
-                      : SizedBox(
-                    width: 1,
-                  ),
+                  ) : SizedBox(width: 1,),
                 ],
               ),
             ],

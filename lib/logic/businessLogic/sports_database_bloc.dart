@@ -44,16 +44,14 @@ class SportsDataBaseBloc {
       Rx.combineLatest2(countryLeagueSubject.stream, sportSubject.stream,
           (CountryLeagueResponse countryLeagueResponse,
               SportsResponse sportsResponse) {
-        for (int i = 0;
-            i < countryLeagueResponse.countryLeagueList.length;
-            i++) {
-          for (int j = 0; j < sportsResponse.sportsList.length; j++) {
-            if (countryLeagueResponse.countryLeagueList[i].sportsName ==
-                sportsResponse.sportsList[j].sportsName) {
+        for (int leagueIndex = 0; leagueIndex < countryLeagueResponse.countryLeagueList.length; leagueIndex++) {
+          for (int sportsIndex = 0; sportsIndex < sportsResponse.sportsList.length; sportsIndex++) {
+            if (countryLeagueResponse.countryLeagueList[leagueIndex].sportsName ==
+                sportsResponse.sportsList[sportsIndex].sportsName) {
               countrySports.add(
                 CountrySportsModel(
-                  countryLeagueResponse.countryLeagueList[i],
-                  sportsResponse.sportsList[j].sportsThumbnailImage,
+                  countryLeagueResponse.countryLeagueList[leagueIndex],
+                  sportsResponse.sportsList[sportsIndex].sportsThumbnailImage,
                 ),
               );
             }
