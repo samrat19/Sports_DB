@@ -16,7 +16,7 @@ class AvailableSportsScreen extends StatefulWidget {
 }
 
 class _AvailableSportsScreenState extends State<AvailableSportsScreen> {
-  bool isTapped = true;
+  bool isTapped = false;
   String search = '';
   String errorMessage = 'Getting Sports.....';
 
@@ -37,7 +37,6 @@ class _AvailableSportsScreenState extends State<AvailableSportsScreen> {
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
-    var items = ['a', 'b'];
     return Scaffold(
       body: Column(
         children: [

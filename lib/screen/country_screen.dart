@@ -5,6 +5,9 @@ import 'package:flutter/material.dart';
 class CountryScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+
+    /*Available countries*/
+
     List<String> countryNameList = [
       'India',
       'United States',
