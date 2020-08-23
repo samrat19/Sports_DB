@@ -95,64 +95,61 @@ class _AvailableSportsScreenState extends State<AvailableSportsScreen> {
                   color: Colors.grey[200],
                   child: Align(
                     alignment: Alignment.centerLeft,
-                    child: isTapped
-                        ? Padding(
-                            padding: const EdgeInsets.only(
-                              left: 8.0,
-                              bottom: 8.0,
-                            ),
-                            child: Row(
-                              children: [
-                                Expanded(
-                                  flex: 2,
-                                    child: TextField(
-                                    onChanged: (val) {
-                                      setState(() {
-                                        print(val);
-                                        search = val;
-                                      });
-                                    },
-                                    decoration: InputDecoration(
-                                      hintText: 'Search leagues...',
-                                      hintStyle: TextStyle(
-                                        color: Colors.black26,
-                                        fontSize: 13.0,
-                                      ),
-                                      border: InputBorder.none,
-                                    ),
-                                  ),
+                    child: Padding(
+                      padding: const EdgeInsets.only(
+                        left: 8.0,
+                        bottom: 8.0,
+                      ),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            flex: 2,
+                            child: TextFormField(
+                              onTap: () {
+                                setState(() {
+                                  isTapped = true;
+                                });
+                              },
+                              onChanged: (val) {
+                                setState(() {
+                                  search = val;
+                                });
+                              },
+                              decoration: InputDecoration(
+                                hintText: 'Search leagues...',
+                                hintStyle: TextStyle(
+                                  color: Colors.black26,
+                                  fontSize: 13.0,
                                 ),
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                    top: 7.0,
-                                    right: 5.0,
-                                  ),
-                                  child: GestureDetector(
-                                    onTap: () {
-                                      print(search);
-                                      getSearch(search);
-                                    },
-                                    child: Icon(
-                                      Icons.search,
-                                      color: Colors.grey[900],
-                                      size: width * 0.07,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          )
-                        : Padding(
-                            padding: const EdgeInsets.only(left: 8.0),
-                            child: Text(
-                              'Search leagues...',
-                              textAlign: TextAlign.start,
-                              style: TextStyle(
-                                color: Colors.black26,
-                                fontSize: 13.0,
+                                border: InputBorder.none,
                               ),
                             ),
                           ),
+                          Visibility(
+                            visible: isTapped,
+                            child: Padding(
+                              padding: const EdgeInsets.only(
+                                top: 7.0,
+                                right: 5.0,
+                              ),
+                              child: GestureDetector(
+                                onTap: () {
+                                  getSearch(search);
+                                  setState(() {
+                                    isTapped = false;
+                                  });
+                                },
+                                child: Icon(
+                                  Icons.search,
+                                  color: Colors.grey[900],
+                                  size: width * 0.07,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
                 ),
               ),
@@ -168,21 +165,11 @@ class _AvailableSportsScreenState extends State<AvailableSportsScreen> {
                       child: ListView.builder(
                         physics: BouncingScrollPhysics(),
                         itemBuilder: (_, int index) => SportsDetailsWidgetModel(
-                          leagueName: countrySports[index]
-                              .countryLeagueModel
-                              .leagueName,
-                          leagueLogo: countrySports[index]
-                              .countryLeagueModel
-                              .leagueLogo,
-                          twitterURL: countrySports[index]
-                              .countryLeagueModel
-                              .twitterProfileLink,
-                          facebookURL: countrySports[index]
-                              .countryLeagueModel
-                              .facebookProfileLink,
-                          sportsName: countrySports[index]
-                              .countryLeagueModel
-                              .sportsName,
+                          leagueName: countrySports[index].countryLeagueModel.leagueName,
+                          leagueLogo: countrySports[index].countryLeagueModel.leagueLogo,
+                          twitterURL: countrySports[index].countryLeagueModel.twitterProfileLink,
+                          facebookURL: countrySports[index].countryLeagueModel.facebookProfileLink,
+                          sportsName: countrySports[index].countryLeagueModel.sportsName,
                           sportsThumbnailImage: countrySports[index].thumbnail,
                         ),
                         itemCount: countrySports == null
