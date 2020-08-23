@@ -27,7 +27,7 @@ class SportsDataBaseBloc {
 
   getSearchedLeague(String searchString, String countryName) async {
     CountryLeagueResponse countryLeagueResponse =
-        await _loadAsset.loadSearchResult(
+        await _loadAsset.loadCountryLeague(
             StoreURL().searchURL + '?s=' + searchString + '&c=' + countryName);
     _countrySubject.sink.add(countryLeagueResponse);
   }

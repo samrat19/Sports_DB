@@ -47,7 +47,7 @@ class CountryWidgetModel extends StatelessWidget {
                     ),
                   ),
                   Image.asset(
-                    'images/arrow_right.png',
+                    'images/arrow_right.webp',
                     width: width * 0.1,
                   ),
                 ],

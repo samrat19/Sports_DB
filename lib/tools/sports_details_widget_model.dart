@@ -34,9 +34,7 @@ class SportsDetailsWidgetModel extends StatelessWidget {
           borderRadius: BorderRadius.circular(7.0),
           image: DecorationImage(
             fit: BoxFit.cover,
-            image: sportsThumbnailImage == null
-                ? AssetImage('images/soccer.jpg')
-                : NetworkImage(sportsThumbnailImage),
+            image: NetworkImage(sportsThumbnailImage),
           ),
         ),
         child: Padding(
@@ -84,7 +82,7 @@ class SportsDetailsWidgetModel extends StatelessWidget {
                       BlendMode.saturation,
                     ),
                     child: Image.asset(
-                      'images/twitter.png',
+                      'images/twitter.webp',
                       width: width * 0.08,
                       colorBlendMode: BlendMode.lighten,
                     ),
@@ -102,7 +100,7 @@ class SportsDetailsWidgetModel extends StatelessWidget {
                       BlendMode.saturation,
                     ),
                     child: Image.asset(
-                      'images/facebook.png',
+                      'images/facebook.webp',
                       width: width * 0.08,
                       colorBlendMode: BlendMode.lighten,
                     ),

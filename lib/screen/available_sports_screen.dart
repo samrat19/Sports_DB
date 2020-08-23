@@ -18,7 +18,7 @@ class AvailableSportsScreen extends StatefulWidget {
 class _AvailableSportsScreenState extends State<AvailableSportsScreen> {
   bool isTapped = true;
   String search = '';
-  String errorMessage = 'fetching.....';
+  String errorMessage = 'Getting Sports.....';
 
   @override
   void initState() {
@@ -37,6 +37,7 @@ class _AvailableSportsScreenState extends State<AvailableSportsScreen> {
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
+    var items = ['a', 'b'];
     return Scaffold(
       body: Column(
         children: [
@@ -105,7 +106,7 @@ class _AvailableSportsScreenState extends State<AvailableSportsScreen> {
                               children: [
                                 Expanded(
                                   flex: 2,
-                                  child: TextField(
+                                    child: TextField(
                                     onChanged: (val) {
                                       setState(() {
                                         print(val);
@@ -164,35 +165,33 @@ class _AvailableSportsScreenState extends State<AvailableSportsScreen> {
                 if (snapshot.hasData) {
                   List<CountrySportsModel> countrySports = snapshot.data;
                   return Expanded(
-                          child: Container(
-                            child: ListView.builder(
-                              physics: BouncingScrollPhysics(),
-                              itemBuilder: (_, int index) =>
-                                  SportsDetailsWidgetModel(
-                                leagueName: countrySports[index]
-                                    .countryLeagueModel
-                                    .leagueName,
-                                leagueLogo: countrySports[index]
-                                    .countryLeagueModel
-                                    .leagueLogo,
-                                twitterURL: countrySports[index]
-                                    .countryLeagueModel
-                                    .twitterProfileLink,
-                                facebookURL: countrySports[index]
-                                    .countryLeagueModel
-                                    .facebookProfileLink,
-                                sportsName: countrySports[index]
-                                    .countryLeagueModel
-                                    .sportsName,
-                                sportsThumbnailImage:
-                                    countrySports[index].thumbnail,
-                              ),
-                              itemCount: countrySports == null
-                                  ? 0
-                                  : sportsDatabaseBloc.totalLeague(),
-                            ),
-                          ),
-                        );
+                    child: Container(
+                      child: ListView.builder(
+                        physics: BouncingScrollPhysics(),
+                        itemBuilder: (_, int index) => SportsDetailsWidgetModel(
+                          leagueName: countrySports[index]
+                              .countryLeagueModel
+                              .leagueName,
+                          leagueLogo: countrySports[index]
+                              .countryLeagueModel
+                              .leagueLogo,
+                          twitterURL: countrySports[index]
+                              .countryLeagueModel
+                              .twitterProfileLink,
+                          facebookURL: countrySports[index]
+                              .countryLeagueModel
+                              .facebookProfileLink,
+                          sportsName: countrySports[index]
+                              .countryLeagueModel
+                              .sportsName,
+                          sportsThumbnailImage: countrySports[index].thumbnail,
+                        ),
+                        itemCount: countrySports == null
+                            ? 0
+                            : sportsDatabaseBloc.totalLeague(),
+                      ),
+                    ),
+                  );
                 } else {
                   return Text(errorMessage);
                 }
