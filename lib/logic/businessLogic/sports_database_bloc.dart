@@ -66,6 +66,12 @@ class SportsDataBaseBloc {
     return countryLeagueLength;
   }
 
+  String message = 'Getting available Sports for the country';
+
+  String errorMessage(){
+    return message;
+  }
+
   dispose() {
     _countrySubject.close();
     _sportsSubject.close();

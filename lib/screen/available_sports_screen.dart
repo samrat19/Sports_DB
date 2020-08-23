@@ -185,7 +185,9 @@ class _AvailableSportsScreenState extends State<AvailableSportsScreen> {
                     ),
                   );
                 } else {
-                  return Text(errorMessage,style: TextStyle(
+                  String message = sportsDatabaseBloc.errorMessage();
+                  print(message);
+                  return Text(message,style: TextStyle(
                     fontSize: width/23,
                   ),);
                 }
