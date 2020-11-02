@@ -178,7 +178,7 @@ class _AvailableSportsScreenState extends State<AvailableSportsScreen> {
                           sportsName: countrySports[index].countryLeagueModel.sportsName,
                           sportsThumbnailImage: countrySports[index].thumbnail,
                         ),
-                        itemCount: countrySports == null ? 0 : sportsDatabaseBloc.totalLeague(),
+                       itemCount: snapshot.data.length,
                       ),
                     ),
                   );

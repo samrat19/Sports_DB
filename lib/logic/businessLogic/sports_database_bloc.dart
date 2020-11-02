@@ -42,22 +42,20 @@ class SportsDataBaseBloc {
   /*Merges the sports stream and countryLeague stream to get sports thumbnail*/
   Stream<List<CountrySportsModel>> get getCountryLeagueSports =>
       Rx.combineLatest2(countryLeagueSubject.stream, sportSubject.stream,
-          (CountryLeagueResponse countryLeagueResponse,
+          (CountryLeagueResponse leagueResponse,
               SportsResponse sportsResponse) {
-        for (int leagueIndex = 0; leagueIndex < countryLeagueResponse.countryLeagueList.length; leagueIndex++) {
-          for (int sportsIndex = 0; sportsIndex < sportsResponse.sportsList.length; sportsIndex++) {
-            if (countryLeagueResponse.countryLeagueList[leagueIndex].sportsName ==
-                sportsResponse.sportsList[sportsIndex].sportsName) {
+        for (var league in leagueResponse.countryLeagueList) {
+          for (var sports in sportsResponse.sportsList) {
+            if (league.sportsName == sports.sportsName) {
               countrySports.add(
                 CountrySportsModel(
-                  countryLeagueResponse.countryLeagueList[leagueIndex],
-                  sportsResponse.sportsList[sportsIndex].sportsThumbnailImage,
+                  league,
+                  sports.sportsThumbnailImage,
                 ),
               );
             }
           }
         }
-        countryLeagueLength = countryLeagueResponse.countryLeagueList.length;
         return countrySports;
       });
 
