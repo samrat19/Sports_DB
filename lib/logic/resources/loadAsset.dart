@@ -29,3 +29,7 @@ class LoadAsset{
     }
   }
 }
+
+class DemoClass{
+  final 
+}

@@ -1,6 +1,7 @@
 import 'package:Sports_DB/logic/businessLogic/sports_database_bloc.dart';
 import 'package:Sports_DB/logic/model/country_sports_model.dart';
 import 'package:Sports_DB/tools/sports_details_widget_model.dart';
+import 'package:Sports_DB/watch_stream.dart';
 import 'package:flutter/material.dart';
 
 class AvailableSportsScreen extends StatefulWidget {
@@ -35,6 +36,9 @@ class _AvailableSportsScreenState extends State<AvailableSportsScreen> {
 
   @override
   Widget build(BuildContext context) {
+
+    print(sportsDatabaseBloc.errorMessage());
+
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     return Scaffold(
@@ -109,7 +113,7 @@ class _AvailableSportsScreenState extends State<AvailableSportsScreen> {
                             child: TextFormField(
                               style: TextStyle(
                                 color: Colors.black,
-                                fontSize: width/23,
+                                fontSize: width / 23,
                               ),
                               onTap: () {
                                 setState(() {
@@ -125,7 +129,7 @@ class _AvailableSportsScreenState extends State<AvailableSportsScreen> {
                                 hintText: 'Search leagues...',
                                 hintStyle: TextStyle(
                                   color: Colors.black26,
-                                  fontSize: width/23,
+                                  fontSize: width / 23,
                                 ),
                                 border: InputBorder.none,
                               ),
@@ -161,7 +165,7 @@ class _AvailableSportsScreenState extends State<AvailableSportsScreen> {
               ),
             ),
           ),
-          StreamBuilder<List<CountrySportsModel>>(
+         /*  StreamBuilder<List<CountrySportsModel>>(
               stream: sportsDatabaseBloc.getCountryLeagueSports,
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
@@ -187,7 +191,42 @@ class _AvailableSportsScreenState extends State<AvailableSportsScreen> {
                     fontSize: width/23,
                   ),);
                 }
-              }),
+              }),*/
+          WatchStream(
+            stream: sportsDatabaseBloc.getCountryLeagueSports,
+            onStreaming: (context, List<CountrySportsModel> countrySports) {
+              return Expanded(
+                child: Container(
+                  child: ListView.builder(
+                    physics: BouncingScrollPhysics(),
+                    itemBuilder: (_, int index) => SportsDetailsWidgetModel(
+                      leagueName:
+                          countrySports[index].countryLeagueModel.leagueName,
+                      leagueLogo:
+                          countrySports[index].countryLeagueModel.leagueLogo,
+                      twitterURL: countrySports[index]
+                          .countryLeagueModel
+                          .twitterProfileLink,
+                      facebookURL: countrySports[index]
+                          .countryLeagueModel
+                          .facebookProfileLink,
+                      sportsName:
+                          countrySports[index].countryLeagueModel.sportsName,
+                      sportsThumbnailImage: countrySports[index].thumbnail,
+                    ),
+                    itemCount: countrySports.length,
+                  ),
+                ),
+              );
+            },
+            onStreamError: Text(
+              'not available',
+              style: TextStyle(
+                fontSize: width / 23,
+              ),
+            ),
+            onStreamWait: CircularProgressIndicator(),
+          ),
         ],
       ),
     );
